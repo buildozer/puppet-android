@@ -28,6 +28,10 @@ define android::package($type) {
     'platform': {
       $creates = "${android::paths::sdk_home}/platforms/${title}"
     }
+    'system-images': {
+      $title_parts = split($title, '-')
+      $creates = "${android::paths::sdk_home}/system-images/android-${title_parts[1]}"
+    }
     'addon': {
       $creates = "${android::paths::sdk_home}/add-ons/${title}"
     }
@@ -60,7 +64,7 @@ define android::package($type) {
     command => "/usr/bin/expect -f ${android::installdir}/expect-install-${title}",
     creates => $creates,
     timeout => 0,
-    require => [Class['Android::Sdk']],
+    require => [Class['android::sdk']],
   }
 
 
